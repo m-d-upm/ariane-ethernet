@@ -15,17 +15,6 @@ module dualmem_widen(clka, clkb, dina, dinb, addra, addrb, wea, web, douta, dout
    genvar r;
    wire [47:0]        dout;
 
-/*   
-`ifndef verilator
- `define RAMB16
-`endif
-*/
-   
-`ifdef GENESYSII
- `define RAMB16
-`endif
-
-`ifdef RAMB16
    
    generate for (r = 0; r < 2; r=r+1)
      RAMB16_S9_S36
@@ -52,26 +41,4 @@ module dualmem_widen(clka, clkb, dina, dinb, addra, addrb, wea, web, douta, dout
         );
    endgenerate
 
-`else // !`ifdef RAMB16
-
-// This bit is a placeholder
-
-infer_dpram #(.RAM_SIZE(11), .BYTE_WIDTH(8)) ram1 // RAM_SIZE is in words
-(
-.ram_clk_a(clka),
-.ram_en_a(|ena),
-.ram_we_a({wea[1],wea[1],wea[1],wea[1],wea[0],wea[0],wea[0],wea[0]}),
-.ram_addr_a(addra),
-.ram_wrdata_a({dina,dina,dina,dina}),
-.ram_rddata_a({dout,douta}),
-.ram_clk_b(clkb),
-.ram_en_b(|enb),
-.ram_we_b({web[1],web[1],web[1],web[1],web[0],web[0],web[0],web[0]}),
-.ram_addr_b({2'b0,addrb}),
-.ram_wrdata_b(dinb),
-.ram_rddata_b(doutb)
- );
-   
-`endif
-   
 endmodule // dualmem
