@@ -10,7 +10,6 @@ dependencies:
 
 sources:
   - rtl/eth_axi2mem.sv
-  - rtl/axis_async_fifo.sv
   - rtl/axis_gmii_rx.sv
   - rtl/axis_gmii_tx.sv
   - rtl/dualmem_widen8.sv
